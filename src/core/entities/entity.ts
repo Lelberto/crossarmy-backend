@@ -22,11 +22,18 @@ export abstract class Entity {
   }
 
   /**
-   * Gets the entity configuration.
+   * Imports entity configuration.
+   * 
+   * @param config Entity configuration
+   */
+  public abstract importConfiguration(config: EntityConfiguration): void;
+
+  /**
+   * Exports entity configuration.
    * 
    * @returns Entity configuration
    */
-  public abstract getConfiguration(): EntityConfiguration;
+  public abstract exportConfiguration(): EntityConfiguration;
 }
 
 /**
@@ -39,8 +46,9 @@ export interface EntityConfiguration {
 }
 
 /**
- * Entity type.
+ * Entity type enumeration.
  */
-export type EntityType =
-    'human'
-  | 'zombie';
+export enum EntityType {
+  BARBARIAN = 0,
+  ARCHER = 1
+}
