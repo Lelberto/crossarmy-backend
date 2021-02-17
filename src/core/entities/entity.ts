@@ -1,4 +1,3 @@
-import { Army } from '../army';
 import { Vector2 } from '../vector2';
 
 /**
@@ -8,22 +7,18 @@ import { Vector2 } from '../vector2';
  */
 export abstract class Entity {
 
-  public army: Army;
   public position: Vector2;
   public size: Vector2;
 
   /**
    * Creates a new entity.
    * 
-   * @param army Army
    * @param position Position
    * @param size Size
    */
-  public constructor(army: Army, position: Vector2, size: Vector2) {
-    this.army = army;
+  public constructor(position: Vector2, size: Vector2) {
     this.position = position;
     this.size = size;
-    this.army.entities.push(this);
   }
 
   /**
