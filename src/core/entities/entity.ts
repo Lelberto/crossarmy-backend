@@ -25,6 +25,13 @@ export abstract class Entity {
     this.size = size;
     this.army.entities.push(this);
   }
+
+  /**
+   * Gets the entity configuration.
+   * 
+   * @returns Entity configuration
+   */
+  public abstract getConfiguration(): EntityConfiguration;
 }
 
 /**
