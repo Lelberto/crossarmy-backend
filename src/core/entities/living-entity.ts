@@ -1,5 +1,5 @@
 import { Vector2 } from '../vector2';
-import { Entity } from './entity';
+import { Entity, EntityConfiguration } from './entity';
 import { Movable } from './movable';
 
 /**
@@ -9,7 +9,7 @@ import { Movable } from './movable';
  */
 export abstract class LivingEntity extends Entity implements Movable {
 
-  public readonly speed: number;
+  public speed: number;
 
   /**
    * Creates a new living entity.
@@ -22,4 +22,11 @@ export abstract class LivingEntity extends Entity implements Movable {
     super(position, size);
     this.speed = speed;
   }
+}
+
+/**
+ * Living entity configuration interface.
+ */
+export interface LivingEntityConfiguration extends EntityConfiguration {
+  speed: number;
 }
