@@ -34,7 +34,7 @@
     "@types/express-mung": "^0.5.2",
     "@types/helmet": "0.0.45",
     "@types/jsonwebtoken": "^8.3.7",
-    "@types/lodash": "^4.14.162",
+    "@types/lodash": "^4.14.168",
     "@types/mongoose": "^5.7.0",
     "@types/node": "^13.7.0",
     "@types/node-cache": "^4.2.5",
