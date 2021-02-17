@@ -1,5 +1,5 @@
-import { Entity } from './entities/entity';
-import { Vector2 } from './vector2';
+import { Entity } from '../entities/entity';
+import { Vector2 } from '../vector2';
 
 /**
  * Army class.
@@ -19,5 +19,14 @@ export class Army {
   public constructor(size: Vector2) {
     this.size = size;
     this.entities = [];
+  }
+
+  /**
+   * Spawns an entity.
+   * 
+   * @param entity Entity to spawn
+   */
+  public spawn(entity: Entity): void {
+    this.entities.push(entity);
   }
 }
