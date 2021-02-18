@@ -9,16 +9,19 @@ export abstract class Entity {
 
   public position: Vector2;
   public size: Vector2;
+  public color: string;
 
   /**
    * Creates a new entity.
    * 
    * @param position Position
    * @param size Size
+   * @param color Color
    */
-  public constructor(position: Vector2, size: Vector2) {
+  public constructor(position: Vector2, size: Vector2, color: string) {
     this.position = position;
     this.size = size;
+    this.color = color;
   }
 
   /**

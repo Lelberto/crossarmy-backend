@@ -17,9 +17,10 @@ export abstract class LivingEntity extends Entity implements Movable {
    * @param position Position
    * @param size Size
    * @param speed Speed
+   * @param color Color
    */
-  public constructor(position: Vector2, size: Vector2, speed: number) {
-    super(position, size);
+  public constructor(position: Vector2, size: Vector2, color: string, speed: number) {
+    super(position, size, color);
     this.speed = speed;
   }
 }

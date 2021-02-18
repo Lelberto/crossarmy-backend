@@ -52,6 +52,7 @@ export class ArmyFactory {
       armyModel.entities = army.entities.map(entity => ({
         position: { x: entity.position.x, y: entity.position.y },
         size: { x: entity.size.width, y: entity.size.height },
+        color: entity.color,
         config: entity.exportConfiguration()
       }));
       await armyModel.save();
