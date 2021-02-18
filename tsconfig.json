@@ -6,12 +6,17 @@
     "outDir": "build/",
     "sourceMap": true,
     "esModuleInterop": true,
-    "typeRoots": ["types/"],
+    "typeRoots": [
+      "types/"
+    ],
     "strict": true,
     "strictNullChecks": false
   },
   "ts-node": {
     "files": true
   },
-  "files": ["types/nodejs.d.ts"]
+  "files": [
+    "types/modules.d.ts",
+    "types/nodejs.d.ts"
+  ]
 }
