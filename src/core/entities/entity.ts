@@ -9,24 +9,34 @@ export abstract class Entity {
 
   public position: Vector2;
   public size: Vector2;
+  public color: string;
 
   /**
    * Creates a new entity.
    * 
    * @param position Position
    * @param size Size
+   * @param color Color
    */
-  public constructor(position: Vector2, size: Vector2) {
+  public constructor(position: Vector2, size: Vector2, color: string) {
     this.position = position;
     this.size = size;
+    this.color = color;
   }
 
   /**
-   * Gets the entity configuration.
+   * Imports entity configuration.
+   * 
+   * @param config Entity configuration
+   */
+  public abstract importConfiguration(config: EntityConfiguration): void;
+
+  /**
+   * Exports entity configuration.
    * 
    * @returns Entity configuration
    */
-  public abstract getConfiguration(): EntityConfiguration;
+  public abstract exportConfiguration(): EntityConfiguration;
 }
 
 /**
@@ -39,8 +49,9 @@ export interface EntityConfiguration {
 }
 
 /**
- * Entity type.
+ * Entity type enumeration.
  */
-export type EntityType =
-    'human'
-  | 'zombie';
+export enum EntityType {
+  BARBARIAN = 0,
+  ARCHER = 1
+}

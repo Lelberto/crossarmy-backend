@@ -20,6 +20,7 @@ export interface ArmyAttributes extends Attributes {
 export interface EntityAttributes {
   position: { x: number, y: number };
   size: { x: number, y: number };
+  color: string;
   config: EntityConfiguration;
 }
 
@@ -106,6 +107,14 @@ function createEntitySubSchema() {
     size: {
       type: createSizeSubSchema(),
       required: [true, 'Entity size is required']
+    },
+    color: {
+      type: Schema.Types.String,
+      required: [true, 'Entity color is required'],
+      validate: {
+        validator: /^#(?:[0-9a-fA-F]{3}){1,2}$/.test,
+        message: 'Invalid entity color'
+      }
     },
     config: {
       type: Schema.Types.Mixed,
