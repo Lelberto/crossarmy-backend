@@ -10,7 +10,7 @@ import { UserInstance } from './user-model';
  */
 export interface ArmyAttributes extends Attributes {
   owner: UserInstance;
-  size: { x: number, y: number };
+  size: { width: number, height: number };
   entities: EntityAttributes[];
 }
 
@@ -19,7 +19,7 @@ export interface ArmyAttributes extends Attributes {
  */
 export interface EntityAttributes {
   position: { x: number, y: number };
-  size: { x: number, y: number };
+  size: { width: number, height: number };
   color: string;
   config: EntityConfiguration;
 }
@@ -53,7 +53,7 @@ function creatArmySchema() {
       required: [true, 'Owner is required']
     },
     size: {
-      type: createSizeSubSchema(),
+      type: createPositionSubSchema(),
       required: [true, 'Size is required']
     },
     entities: {
@@ -70,6 +70,29 @@ function creatArmySchema() {
 }
 
 /**
+ * Creates the position subschema.
+ * 
+ * @param container Services container
+ * @returns Position schema
+ */
+function createPositionSubSchema() {
+  const schema = new Schema({
+    x: {
+      type: Schema.Types.Number,
+      required: [true, 'Position X is required']
+    },
+    y: {
+      type: Schema.Types.Number,
+      required: [true, 'Position Y is required']
+    }
+  }, {
+    _id: false,
+    id: false
+  });
+  return schema;
+}
+
+/**
  * Creates the size subschema.
  * 
  * @param container Services container
@@ -77,11 +100,11 @@ function creatArmySchema() {
  */
 function createSizeSubSchema() {
   const schema = new Schema({
-    x: {
+    width: {
       type: Schema.Types.Number,
       required: [true, 'Size X is required']
     },
-    y: {
+    height: {
       type: Schema.Types.Number,
       required: [true, 'Size Y is required']
     }
