@@ -80,7 +80,7 @@ export default class UserController extends Controller {
     try {
       const user = await this.db.users.create({
         email: req.body.email,
-        name: req.body.name.name.name,
+        name: req.body.name,
         password: req.body.password
       });
       return res.status(201).send({
