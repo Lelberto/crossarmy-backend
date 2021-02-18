@@ -23,6 +23,7 @@ export default class UserController extends Controller {
     this.registerEndpoint({ method: 'PATCH', uri: '/:id', handlers: this.updateHandler });
     this.registerEndpoint({ method: 'DELETE', uri: '/:id', handlers: this.deleteHandler });
     this.registerEndpoint({ method: 'GET', uri: '/:id/armies', handlers: this.listArmiesHandler });
+    this.registerEndpoint({ method: 'POST', uri: '/:id/armies', handlers: this.createArmyHandler });
   }
 
   /**
@@ -223,6 +224,35 @@ export default class UserController extends Controller {
         }));
       }
       return res.status(200).send({ armies: user.armies });
+    } catch (err) {
+      return res.status(500).send(this.container.errors.formatServerError(err));
+    }
+  }
+
+  /**
+   * Creates a new army for an user.
+   * 
+   * Path : `POST /users/:id/armies`
+   * 
+   * @param req Express request
+   * @param res Express response
+   * @async
+   */
+  public async createArmyHandler(req: Request, res: Response): Promise<Response> {
+    try {
+      const user = await this.db.users.findById(req.params.id).populate('armies');
+      if (user == null) {
+        return res.status(404).send(this.container.errors.formatErrors({
+          error: 'not_found',
+          error_description: 'User not found'
+        }));
+      }
+      const army = await this.db.armies.create({
+        owner: user,
+        size: req.body.size,
+        entities: []
+      });
+      return res.status(201).send({ id: army.id });
     } catch (err) {
       return res.status(500).send(this.container.errors.formatServerError(err));
     }
