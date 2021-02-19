@@ -24,6 +24,7 @@ export default class UserController extends Controller {
     this.registerEndpoint({ method: 'DELETE', uri: '/:id', handlers: this.deleteHandler });
     this.registerEndpoint({ method: 'GET', uri: '/:id/armies', handlers: this.listArmiesHandler });
     this.registerEndpoint({ method: 'POST', uri: '/:id/armies', handlers: this.createArmyHandler });
+    this.registerEndpoint({ method: 'PATCH', uri: '/:id/armies/:armyId', handlers: this.updateArmyHandler });
   }
 
   /**
@@ -206,7 +207,7 @@ export default class UserController extends Controller {
   }
 
   /**
-   * Lists all armies for an user.
+   * Lists all armies of an user.
    * 
    * Path : `GET /users/:id/armies`
    * 
@@ -230,7 +231,7 @@ export default class UserController extends Controller {
   }
 
   /**
-   * Creates a new army for an user.
+   * Creates a new army.
    * 
    * Path : `POST /users/:id/armies`
    * 
@@ -253,6 +254,50 @@ export default class UserController extends Controller {
       });
       return res.status(201).send({ id: army.id });
     } catch (err) {
+      if (err.name === 'ValidationError') {
+        return res.status(400).send(this.container.errors.formatErrors(...this.container.errors.translateMongooseValidationError(err)));
+      }
+      return res.status(500).send(this.container.errors.formatServerError(err));
+    }
+  }
+
+  /**
+   * Updates an army.
+   * 
+   * Path : `PATCH /users/:id/armies/:armyId`
+   * 
+   * @param req Express request
+   * @param res Express response
+   * @async
+   */
+  public async updateArmyHandler(req: Request, res: Response): Promise<Response> {
+    try {
+      const user = await this.db.users.findById(req.params.id).populate('armies');
+      if (user == null) {
+        return res.status(404).send(this.container.errors.formatErrors({
+          error: 'not_found',
+          error_description: 'User not found'
+        }));
+      }
+      const army = await this.db.armies.findById(req.params.armyId);
+      if (army == null) {
+        return res.status(404).send(this.container.errors.formatErrors({
+          error: 'not_found',
+          error_description: 'Army not found'
+        }));
+      }
+      if (req.body.size != null) {
+        army.size = req.body.size;
+      }
+      if (req.body.entities != null) {
+        army.entities = req.body.entities;
+      }
+      await army.save();
+      return res.status(200).send({ id: army.id });
+    } catch (err) {
+      if (err.name === 'ValidationError') {
+        return res.status(400).send(this.container.errors.formatErrors(...this.container.errors.translateMongooseValidationError(err)));
+      }
       return res.status(500).send(this.container.errors.formatServerError(err));
     }
   }
