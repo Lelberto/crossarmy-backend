@@ -135,7 +135,7 @@ function createEntitySubSchema() {
       type: Schema.Types.String,
       required: [true, 'Entity color is required'],
       validate: {
-        validator: /^#(?:[0-9a-fA-F]{3}){1,2}$/.test,
+        validator: (value: string) => /^#(?:[0-9a-fA-F]{3}){1,2}$/.test(value),
         message: 'Invalid entity color'
       }
     },
