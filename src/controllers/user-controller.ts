@@ -249,8 +249,7 @@ export default class UserController extends Controller {
       }
       const army = await this.db.armies.create({
         owner: user,
-        size: req.body.size,
-        entities: []
+        size: req.body.size
       });
       return res.status(201).send({ id: army.id });
     } catch (err) {

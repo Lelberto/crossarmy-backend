@@ -11,7 +11,7 @@ import { UserInstance } from './user-model';
 export interface ArmyAttributes extends Attributes {
   owner: UserInstance;
   size: { width: number, height: number };
-  entities: EntityAttributes[];
+  entities?: EntityAttributes[];
 }
 
 /**
@@ -53,12 +53,12 @@ function creatArmySchema() {
       required: [true, 'Owner is required']
     },
     size: {
-      type: createPositionSubSchema(),
+      type: createSizeSubSchema(),
       required: [true, 'Size is required']
     },
     entities: {
       type: [{
-        type: createEntitySubSchema(),
+        type: createEntitySubSchema()
       }],
       default: []
     }
@@ -79,11 +79,11 @@ function createPositionSubSchema() {
   const schema = new Schema({
     x: {
       type: Schema.Types.Number,
-      required: [true, 'Position X is required']
+      default: 0
     },
     y: {
       type: Schema.Types.Number,
-      required: [true, 'Position Y is required']
+      default: 0
     }
   }, {
     _id: false,
@@ -102,11 +102,11 @@ function createSizeSubSchema() {
   const schema = new Schema({
     width: {
       type: Schema.Types.Number,
-      required: [true, 'Size X is required']
+      default: 0
     },
     height: {
       type: Schema.Types.Number,
-      required: [true, 'Size Y is required']
+      default: 0
     }
   }, {
     _id: false,
@@ -124,7 +124,7 @@ function createSizeSubSchema() {
 function createEntitySubSchema() {
   const schema = new Schema({
     position: {
-      type: createSizeSubSchema(),
+      type: createPositionSubSchema(),
       required: [true, 'Entity position is required']
     },
     size: {
