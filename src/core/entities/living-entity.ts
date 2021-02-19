@@ -1,5 +1,6 @@
 import { Vector2 } from '../vector2';
 import { Entity, EntityConfiguration } from './entity';
+import { Livable } from './livable';
 import { Movable } from './movable';
 
 /**
@@ -7,8 +8,9 @@ import { Movable } from './movable';
  * 
  * A living entity is an entity that can move.
  */
-export abstract class LivingEntity extends Entity implements Movable {
+export abstract class LivingEntity extends Entity implements Livable, Movable {
 
+  public health: number;
   public speed: number;
 
   /**
@@ -23,6 +25,8 @@ export abstract class LivingEntity extends Entity implements Movable {
     super(position, size, color);
     this.speed = speed;
   }
+
+  public abstract isAlive(): boolean;
 }
 
 /**
