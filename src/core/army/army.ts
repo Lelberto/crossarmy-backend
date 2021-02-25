@@ -1,3 +1,4 @@
+import { ArmyInstance } from '../../models/army-model';
 import { Entity } from '../entities/entity';
 import { Updatable } from '../updatable';
 import { Vector2 } from '../vector2';
@@ -9,18 +10,18 @@ import { Vector2 } from '../vector2';
  */
 export class Army implements Updatable {
 
-  public readonly id: string;
+  public model: ArmyInstance;
   public readonly size: Vector2;
   public entities: Entity[];
 
   /**
    * Creates a new army.
    * 
-   * @param id ID
+   * @param model Model
    * @param size Size
    */
-  public constructor(id: string, size: Vector2) {
-    this.id = id;
+  public constructor(model: ArmyInstance, size: Vector2) {
+    this.model = model;
     this.size = size;
     this.entities = [];
   }

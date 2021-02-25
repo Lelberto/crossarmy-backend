@@ -16,7 +16,7 @@ export class ArmyFactory {
    * @param armyModel Army model
    */
   public static create(armyModel: ArmyInstance): Army {
-    const army = new Army(armyModel.id, new Vector2(armyModel.size.width, armyModel.size.height));
+    const army = new Army(armyModel, new Vector2(armyModel.size.width, armyModel.size.height));
     for (const entityModel of armyModel.entities) {
       army.spawn(EntityFactory.create(new Vector2(entityModel.position.x, entityModel.position.y), new Vector2(entityModel.size.width, entityModel.size.height), entityModel.color, entityModel.config));
     }
@@ -36,7 +36,7 @@ export class ArmyFactory {
       size: { width: size.width, height: size.height },
       entities: []
     });
-    return new Army(armyModel.id, size);
+    return new Army(armyModel, size);
   }
 
   /**
@@ -46,7 +46,7 @@ export class ArmyFactory {
    * @param army Army to save
    */
   public static async save(container: ServiceContainer, army: Army): Promise<void> {
-    const armyModel = await container.db.armies.findById(army.id);
+    const armyModel = army.model;
     if (armyModel != null) {
       armyModel.size = { width: army.size.width, height: army.size.height };
       armyModel.entities = army.entities.map(entity => ({
