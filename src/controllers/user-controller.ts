@@ -64,7 +64,7 @@ export default class UserController extends Controller {
    */
   public async listHandler(req: Request, res: Response): Promise<Response> {
     try {
-      return res.status(200).send({ users: await this.db.users.find() });
+      return res.status(200).send({ users: await this.db.users.find().populate('armies') });
     } catch (err) {
       return res.status(500).send(this.container.errors.formatServerError(err));
     }
@@ -81,7 +81,7 @@ export default class UserController extends Controller {
    */
   public async getHandler(req: Request, res: Response): Promise<Response> {
     try {
-      const user = await this.db.users.findById(req.params.id);
+      const user = await this.db.users.findById(req.params.id).populate('armies');
       if (user == null) {
         return res.status(404).send(this.container.errors.formatErrors({
           error: 'not_found',

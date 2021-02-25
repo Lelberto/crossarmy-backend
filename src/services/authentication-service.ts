@@ -31,7 +31,7 @@ export default class AuthenticationService extends Service {
     if (token != null) {
       try {
         const data = await this.container.tokens.decode<AccessTokenData>(token, process.env.ACCESS_TOKEN_KEY);
-        const user = await this.container.db.users.findById(data.userId);
+        const user = await this.container.db.users.findById(data.userId).populate('armies');
         if (user != null) {
           res.locals.authUser = user;
         }
