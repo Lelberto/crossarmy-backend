@@ -1,4 +1,5 @@
 import { Entity } from '../entities/entity';
+import { Updatable } from '../updatable';
 import { Vector2 } from '../vector2';
 
 /**
@@ -6,7 +7,7 @@ import { Vector2 } from '../vector2';
  * 
  * An army is the base of the game.
  */
-export class Army {
+export class Army implements Updatable {
 
   public readonly id: string;
   public readonly size: Vector2;
@@ -31,5 +32,11 @@ export class Army {
    */
   public spawn(entity: Entity): void {
     this.entities.push(entity);
+  }
+
+  public update(loopCount: number): void {
+    for (const entity of this.entities) {
+      entity.update(loopCount);
+    }
   }
 }

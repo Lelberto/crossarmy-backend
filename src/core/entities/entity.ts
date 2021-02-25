@@ -1,3 +1,4 @@
+import { Updatable } from '../updatable';
 import { Vector2 } from '../vector2';
 
 /**
@@ -5,7 +6,7 @@ import { Vector2 } from '../vector2';
  * 
  * An entity is an object in the army.
  */
-export abstract class Entity {
+export abstract class Entity implements Updatable {
 
   public position: Vector2;
   public size: Vector2;
@@ -23,6 +24,8 @@ export abstract class Entity {
     this.size = size;
     this.color = color;
   }
+
+  public abstract update(loopCount?: number): void;
 
   /**
    * Imports entity configuration.
