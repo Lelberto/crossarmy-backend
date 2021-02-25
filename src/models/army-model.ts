@@ -10,8 +10,8 @@ import { UserInstance } from './user-model';
  */
 export interface ArmyAttributes extends Attributes {
   owner: UserInstance;
-  size: { x: number, y: number };
-  entities: EntityAttributes[];
+  size: { width: number, height: number };
+  entities?: EntityAttributes[];
 }
 
 /**
@@ -19,7 +19,7 @@ export interface ArmyAttributes extends Attributes {
  */
 export interface EntityAttributes {
   position: { x: number, y: number };
-  size: { x: number, y: number };
+  size: { width: number, height: number };
   color: string;
   config: EntityConfiguration;
 }
@@ -58,7 +58,7 @@ function creatArmySchema() {
     },
     entities: {
       type: [{
-        type: createEntitySubSchema(),
+        type: createEntitySubSchema()
       }],
       default: []
     }
@@ -70,6 +70,29 @@ function creatArmySchema() {
 }
 
 /**
+ * Creates the position subschema.
+ * 
+ * @param container Services container
+ * @returns Position schema
+ */
+function createPositionSubSchema() {
+  const schema = new Schema({
+    x: {
+      type: Schema.Types.Number,
+      default: 0
+    },
+    y: {
+      type: Schema.Types.Number,
+      default: 0
+    }
+  }, {
+    _id: false,
+    id: false
+  });
+  return schema;
+}
+
+/**
  * Creates the size subschema.
  * 
  * @param container Services container
@@ -77,13 +100,13 @@ function creatArmySchema() {
  */
 function createSizeSubSchema() {
   const schema = new Schema({
-    x: {
+    width: {
       type: Schema.Types.Number,
-      required: [true, 'Size X is required']
+      default: 0
     },
-    y: {
+    height: {
       type: Schema.Types.Number,
-      required: [true, 'Size Y is required']
+      default: 0
     }
   }, {
     _id: false,
@@ -101,7 +124,7 @@ function createSizeSubSchema() {
 function createEntitySubSchema() {
   const schema = new Schema({
     position: {
-      type: createSizeSubSchema(),
+      type: createPositionSubSchema(),
       required: [true, 'Entity position is required']
     },
     size: {
@@ -112,7 +135,7 @@ function createEntitySubSchema() {
       type: Schema.Types.String,
       required: [true, 'Entity color is required'],
       validate: {
-        validator: /^#(?:[0-9a-fA-F]{3}){1,2}$/.test,
+        validator: (value: string) => /^#(?:[0-9a-fA-F]{3}){1,2}$/.test(value),
         message: 'Invalid entity color'
       }
     },
